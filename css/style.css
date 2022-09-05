@@ -45,12 +45,12 @@
 	--background-primary: #1b1b1b;
 	--background-secondary: #333;
 	--background-tertiary: #505050;
-	--btn-color: #e5f7ff;
-	--btn-primary: hsl(198, 80%, 35%);
-	--btn-hover: hsl(198, 80%, 38%);
-	--btn-active: hsl(198, 80%, 32%);
-	--focus-ring: hsl(210, 100%, 80%);
-	--focus-shadow: 0 0 0 .3rem hsl(198, 100%, 67%, .1);
+	--btn-color: #fffe;
+	--btn-primary: hsl(208, 80%, 40%);
+	--btn-hover: hsl(208, 80%, 45%);
+	--btn-active: hsl(208, 80%, 35%);
+	--focus-ring: hsl(208, 100%, 70%);
+	--focus-shadow: 0 0 0 .3rem hsl(208, 100%, 67%, .1);
 	--border-primary: #888;
 }
 .light {
@@ -61,12 +61,12 @@
 	--background-primary: #fff;
 	--background-secondary: #f2f2f2;
 	--background-tertiary: #d1d1d1;
-	--btn-color: #e5f7ff;
-	--btn-primary: hsl(198, 80%, 35%);
-	--btn-hover: hsl(198, 80%, 38%);
-	--btn-active: hsl(198, 80%, 32%);
-	--focus-ring: hsl(210, 100%, 60%);
-	--focus-shadow: 0 0 0 .3rem hsl(198, 100%, 50%, .1);
+	--btn-color: #fffe;
+	--btn-primary: hsl(208, 80%, 40%);
+	--btn-hover: hsl(208, 80%, 45%);
+	--btn-active: hsl(208, 80%, 35%);
+	--focus-ring: hsl(208, 100%, 70%);
+	--focus-shadow: 0 0 0 .3rem hsl(208, 100%, 40%, .1);
 	--border-primary: #ccc;
 }
 
@@ -110,6 +110,7 @@ ul li {
 
 h1, h2, h3, h4, h5, h6 {
 	font-weight: var(--fw-700);
+	line-height: 1.15;
 	margin: 0
 }
 
@@ -139,7 +140,7 @@ p {
 	content: '';
 	width: 20px;
 	height: 20px;
-	background-color: #00b3ff;
+	background-color: #1a94ff;
 	clip-path: path('M13.97 0L3.9 1.13 1.51 4.21l2.82 13.47L7.79 19.97l10-1.15-.15-3.82-9.19 1.03-.74-3.53L12.5 11.91l-.22-4.38-5.44 .71-.74-3.5L14.12 3.82');
 }
 
