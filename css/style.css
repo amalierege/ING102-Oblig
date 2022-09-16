@@ -100,8 +100,9 @@ a {
 	color: inherit;
 }
 
-ul {
+ul, ol {
 	padding: 0;
+	margin: 0;
 }
 
 ul li {
@@ -146,6 +147,7 @@ p {
 
 .document-header {
 	position: fixed;
+	z-index: 99;
 	height: 16.1rem;
 	width: 100%;
 	top: -11.6rem;
@@ -422,4 +424,56 @@ p {
 
 .textbox > * + * {
 	margin-top: 1em;
+}
+
+.image-banner {
+	background-size: contain;
+	background-position: center;
+	display: grid;
+	place-items: center;
+	background-repeat: no-repeat;
+	position: relative;
+}
+
+.image-banner span {
+	position: absolute;
+	background-color: #333a;
+	padding: .2rem .4rem;
+	color: #fff;
+	font-size: 3.2rem;
+}
+
+.spesifications {
+	max-width: 60ch;
+	margin: 0 auto;
+}
+
+.spesifications + * {
+	margin: 0;
+}
+
+.equipment li {
+	list-style-type: disc;
+	margin: .3em 0 .3em 2em
+}
+
+.spesifications li {
+	padding: 1em 0;
+	font-weight: var(--fw-400);
+	break-inside: avoid-column;
+}
+
+.spesifications span {
+	font-size: 1.25em;
+}
+
+@media (min-width: 22.5em) {
+	.spesifications, .equipment {
+		columns: 2;
+	}
+}
+@media (min-width: 35.01em) {
+	.spesifications, .equipment {
+		columns: 3;
+	}
 }
