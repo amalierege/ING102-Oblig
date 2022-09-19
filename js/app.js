@@ -62,7 +62,7 @@ const navbar = (() => {
 			// Replacing pagecontent and updating title
 			nav.nextElementSibling.replaceWith(data.content)
 			document.title = data.title
-		}
+		},
 		goTo = url => {
 			if (nav.matches('.open')) {
 				nav.style.transitionDuration = '0s'
@@ -83,37 +83,36 @@ const navbar = (() => {
 			title = html.slice(html.indexOf('<title>') + 7, html.indexOf('</title>'))
 			
 			updateContent(cache[url] = { content, title })
+		},
+		prefetchLink = async href => {
+			if (href == location.href || documents[href]) return
+			const res = await fetch(href)
+			documents[href] = await res.text()
 		}
 
 		// Fetching and storing all documents after page load
 		onload = () => setTimeout(() => {
-			links.forEach(async link => {
-				const href = link.href.split('?')[0]
-				if (href == location.href) return
-				const res = await fetch(href)
-				documents[href] = await res.text()
-			})
+			links.forEach(link => prefetchLink(link.href.split('?')[0]))
+			prefetchLink(location.origin + '/edel-team12/registrering.html')
 		})
 
-		links.forEach(link => {
-			// Click handler that overrides the normal navigation for the links
-			link.onclick = e => {
-				if (e.ctrlKey || e.shiftKey || e.altKey || e.metaKey) return
+		// Click handler that overrides the normal navigation for the links
+		onclick = e => {
+			const link = e.target.closest('a')
+			if (!link || e.ctrlKey || e.shiftKey || e.altKey || e.metaKey) return
+			link.blur()
+			e.preventDefault()
+			if (link.href != location.href) history.pushState({}, '', link.href)
 
-				link.blur()
-				e.preventDefault()
-				if (link.href != location.href) history.pushState({}, '', link.href)
-
-				if (link.matches('.dropdown *') && !media.matches) {
-					// Making sure the dropdown closes after you click a link
-					const dropdown = link.closest('.dropdown')
-					dropdown.style.display = 'none'
-					setTimeout(() => dropdown.removeAttribute('style'))
-				}
-				
-				router.goTo(link.href)
+			if (link.matches('.dropdown *') && !media.matches) {
+				// Making sure the dropdown closes after you click a link
+				const dropdown = link.closest('.dropdown')
+				dropdown.style.display = 'none'
+				setTimeout(() => dropdown.removeAttribute('style'))
 			}
-		})
+			
+			router.goTo(link.href)
+		}
 
 		cache[location.href] = {
 			content: nav.nextElementSibling,
@@ -124,7 +123,7 @@ const navbar = (() => {
 		
 		// Public methods and properties for the router
 		return {
-			goTo
+			goTo, prefetchLink
 		}
 	})()
 
