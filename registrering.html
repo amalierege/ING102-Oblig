@@ -50,33 +50,30 @@
 			</div>
 		</div>
 	</header>
-	<div id="bli-medlem" class="textbox">
-		<h1>Medlemskap</h1>
-		<p>Det finnes 3 typer medlemsskap du kan ta nytte av:</p>
-		<ol class="list">
-			<li>
-				Bildeling
-				<ul>
-					<li>Fri tilgang til alle biler og sykler fra alle utlånssteder</li>
-					<li>Pris: 10 000,- per år</li>
-				</ul>
-			</li>
-			<li>
-				Båtdeling
-				<ul>
-					<li>Fri tilgang til alle båter fra alle utlånssteder</li>
-					<li>Pris: 15 000,- per år</li>
-				</ul>
-			</li>
-			<li>
-				Total
-				<ul>
-					<li>Fri tilgang til alle biler, båter og sykler fra alle utlånssteder</li>
-					<li>Pris: 20 000,- per år</li>
-				</ul>
-			</li>
-		</ol>
-		<a class="btn" href="/edel-team12/registrering.html">Registrer deg</a>
+	<div id="registrer">
+		<h1>Registrer deg</h1>
+		<form onsubmit="console.log(event), event.preventDefault()">
+			<div class="form-group">
+				<label for="subscription">Medlemskap</label>
+				<div class="select">
+					<select id="subscription">
+						<option value="0">Bildeling</option>
+						<option value="1">Båtdeling</option>
+						<option value="2">Total</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input id="email" pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9 -]+\.[a-z]{2,}" required type="email">
+			</div>
+			<div class="form-group">
+				<label for="password">Passord</label>
+				<input id="password" minlength="8" type="password" required>
+				<p class="input-hint">Minst 8 tegn</p>
+			</div>
+			<button class="btn">Bli medlem</button>
+		</form>
 	</div>
 </body>
 </html>
