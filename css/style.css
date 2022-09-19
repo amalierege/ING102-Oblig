@@ -33,8 +33,10 @@
 :root {
 	font-size: 62.5%;
 	font-family: Roboto, -apple-system, Arial, Helvetica, sans-serif;
-	--fw-400: 300;
-	--fw-700: 600;
+	--fw-400: 400;
+	--fw-700: 700;
+	min-height: 100%;
+	height: 100%;
 }
 
 .dark {
@@ -42,6 +44,7 @@
 	--text-secondary: #e4e4e4;
 	--text-tertiary: #ccc;
 	--text-invert: #1b1b1b;
+	--text-link: hsl(208, 100%, 70%);
 	--background-primary: #1b1b1b;
 	--background-secondary: #333;
 	--background-tertiary: #505050;
@@ -52,12 +55,14 @@
 	--focus-ring: hsl(208, 100%, 70%);
 	--focus-shadow: 0 0 0 .3rem hsl(208, 100%, 67%, .1);
 	--border-primary: #888;
+	color-scheme: dark;
 }
 .light {
 	--text-primary: #1b1b1b;
 	--text-secondary: #2c2c2c;
 	--text-tertiary: #4e4e4e;
 	--text-invert: #fff;
+	--text-link: hsl(208, 100%, 38%);
 	--background-primary: #fff;
 	--background-secondary: #f2f2f2;
 	--background-tertiary: #d1d1d1;
@@ -68,6 +73,7 @@
 	--focus-ring: hsl(208, 100%, 70%);
 	--focus-shadow: 0 0 0 .3rem hsl(208, 100%, 40%, .1);
 	--border-primary: #ccc;
+	color-scheme: light;
 }
 
 body {
@@ -77,6 +83,9 @@ body {
 	line-height: 1.5;
 	background-color: var(--background-primary);
 	color: var(--text-primary);
+	display: grid;
+	min-height: 100%;
+	align-content: flex-start;
 }
 
 *, ::before, ::after {
@@ -100,6 +109,14 @@ a {
 	color: inherit;
 }
 
+a:where(:not(.btn, .logo)) {
+	color: var(--text-link);
+	text-decoration: underline;
+}
+a:hover {
+	text-decoration: none;
+}
+
 ul, ol {
 	padding: 0;
 	margin: 0;
@@ -107,6 +124,13 @@ ul, ol {
 
 ul li {
 	list-style: none;
+}
+
+.list li {
+	list-style-type: unset;
+}
+.list, .list ol, .list ul {
+	padding-left: 1.25em;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -127,6 +151,7 @@ p {
 	display: inline-flex;
 	width: 100%;
 	color: var(--text-secondary);
+	text-decoration: none;
 }
 
 .logo {
@@ -209,6 +234,8 @@ p {
 	border-radius: 0.3em;
 	padding: 0.5rem 1rem;
 	color: var(--btn-color);
+	text-align: center;
+	display: inline-block;
 }
 .btn:hover {
 	background-color: var(--btn-hover);
@@ -417,13 +444,14 @@ p {
 /* Content */
 
 .document-header + div {
+	width: 100%;
 	max-width: 75ch;
 	margin: auto;
 	padding: 1.5em 1em 1em;
 }
 
 .textbox > * + * {
-	margin-top: 1em;
+	margin-top: 1.25em;
 }
 
 .image-banner {
@@ -475,5 +503,118 @@ p {
 @media (min-width: 35.01em) {
 	.spesifications, .equipment {
 		columns: 3;
+	}
+}
+
+#registrer {
+	max-width: 40ch;
+	width: 100%;
+}
+body:has(#registrer) {
+	align-content: center;
+}
+
+#registrer form {
+	display: grid;
+	gap: 1em;
+	font-size: 2rem;
+	margin-top: 2em;
+}
+
+.form-group {
+	display: grid;
+	gap: .5rem;
+	width: auto;
+}
+
+[type="text"],
+[type="email"],
+[type="password"] {
+	margin: 0;
+	padding: .4em .6em;
+	font-size: 1em;
+	background-color: var(--background-secondary);
+	border: .1rem solid var(--border-primary);
+	border-radius: .2em;
+	color: var(--text-primary);
+	line-height: 1.2;
+}
+
+.input-hint {
+	font-size: 80%;
+	color: var(--text-tertiary)
+}
+
+.select {
+	display: grid;
+	grid-template-areas: "select";
+	align-items: center;
+	border-radius: 0.2em;
+	position: relative;
+	line-height: 1.2;
+}
+
+select {
+	-webkit-appearance: none;
+	appearance: none;
+	padding: 0.4em 1.5em 0.4em 0.6em;
+	border: 0.1rem solid var(--border-primary);
+	border-radius: 0.2em;
+	margin: 0;
+	width: 100%;
+	font: inherit;
+	color: inherit;
+	cursor: inherit;
+	line-height: inherit;
+	outline: 0;
+	grid-area: select;
+	background-color: var(--background-secondary);
+}
+
+.select::before {
+	content: "";
+	width: 0.7em;
+	height: 0.4em;
+	margin-right: 0.4em;
+	background-color: var(--text-primary);
+	clip-path: polygon(100% 0%,0 0%,50% 100%);
+	grid-area: select;
+	justify-self: end;
+	pointer-events: none;
+}
+
+:is(select, [type="text"], [type="email"], [type="password"]):focus {
+	border: .1rem solid var(--focus-ring);
+	box-shadow: var(--focus-shadow);
+	outline: none;
+}
+
+#bli-medlem ol {
+	display: grid;
+	gap: 1em
+}
+
+.map-container {
+	display: grid;
+	gap: 1em;
+	grid-template-columns: 17rem 1fr;
+}
+
+.embeded-map {
+	aspect-ratio: 3 / 2;
+	background-color: var(--background-secondary);
+	order: 1;
+	width: 100%;
+}
+
+@media (max-width: 35em) {
+	.map-container {
+		grid-template-columns: auto;
+	}
+	.embeded-map {
+		order: 0
+	}
+	.map-container .list {
+		columns: 2;
 	}
 }
