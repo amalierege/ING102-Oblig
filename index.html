@@ -17,7 +17,6 @@
 		// This script is inline to ensure the correct theme is set before first paint
 		document.documentElement.className = localStorage.theme ||
 		(matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-		addEventListener('finishednavigation', e => console.log(e))
 	</script>
 	<header class="document-header">
 		<div class="container">
