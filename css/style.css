@@ -556,7 +556,7 @@ body:has(#registrer) {
 }
 
 .select {
-	display: grid;
+	display: inline-grid;
 	grid-template-areas: "select";
 	align-items: center;
 	border-radius: 0.2em;

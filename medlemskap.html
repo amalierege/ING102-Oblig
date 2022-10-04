@@ -52,31 +52,75 @@
 	</header>
 	<div id="bli-medlem" class="textbox">
 		<h1>Medlemskap</h1>
-		<p>Det finnes 3 typer medlemsskap du kan ta nytte av:</p>
-		<ol class="list">
-			<li>
-				Bildeling
-				<ul>
-					<li>Fri tilgang til alle biler og sykler fra alle utlånssteder</li>
-					<li>Pris: 10 000,- per år</li>
-				</ul>
-			</li>
-			<li>
-				Båtdeling
-				<ul>
-					<li>Fri tilgang til alle båter fra alle utlånssteder</li>
-					<li>Pris: 15 000,- per år</li>
-				</ul>
-			</li>
-			<li>
-				Total
-				<ul>
-					<li>Fri tilgang til alle biler, båter og sykler fra alle utlånssteder</li>
-					<li>Pris: 20 000,- per år</li>
-				</ul>
-			</li>
-		</ol>
+		<p>Det finnes 3 typer medlemsskap du kan ta nytte av</p>
+		<h3>Fordeler</h3>
+		<div style="display: flex; gap: .5em; align-items: center">
+			<label for="type">type:</label>
+			<div class="select" style="flex-grow: 1; max-width: 20em">
+				<select id="type">
+					<option value="bildeling">Bildeling</option>
+					<option value="batdeling">Båtdeling</option>
+					<option value="total">Total</option>
+				</select>
+			</div>
+		</div>
 		<a class="btn" href="/edel-team12/registrering.html">Registrer deg</a>
+		<script>
+		(() => {
+			// Method for easily creating html-elements
+			const element = (tagName = '', props, children) => {
+				const el = document.createElement(tagName)
+				if (props) for (const prop in props) el[prop] = props[prop]
+				children && el.append(...children)
+				return el
+			}
+			const text = data => document.createTextNode(data)
+
+			const container = document.getElementById('bli-medlem')
+			const select = document.getElementById('type')
+			const link = container.querySelector('a')
+			select.oninput = () => {
+				// Updating the hash in the url
+				location.assign('#' + select.value)
+				select.focus()
+			}
+			const medlemskap = {
+				bildeling: ['biler og sykler', '10 000', 0],
+				batdeling: ['båter', '15 000', 1],
+				total: ['biler, båter og sykler', '20 000', 2]
+			}
+			const hashchangeCallback = () => {
+				// Function for updating the content when the hash changes or when the page is navigated to		
+				const hash = location.hash.slice(1)
+				const key = hash in medlemskap ? hash : 'bildeling'
+				select.value = key
+				updateContent(medlemskap[key])
+			}
+			// No need to update the content if the container isn't in the document
+			addEventListener('hashchange', () => container.parentElement && hashchangeCallback())
+			// Custom event fired after the navigation
+			addEventListener('navigationfinished', () => container.parentElement && hashchangeCallback())
+			const updateContent = (() => {
+				// Storing textnodes so the text can easily be updated
+				const textNodes = [0,0].map(() => text())
+				// Adding the content before the registration link
+				link.before(element('div', 0, [
+					element('ul', { className: 'list' }, [
+						element('li', 0, ['Fri tilgang til alle ', textNodes[0], ' fra alle utlånssteder']),
+						element('li', 0, ['Pris: ', textNodes[1], ',- per år'])
+					])
+				]))
+
+				// Method for updating the content
+				return newText => {
+					textNodes[0].data = newText[0]
+					textNodes[1].data = newText[1]
+					link.href = `/edel-team12/registrering.html#${newText[2]}`
+				}
+			})()
+			hashchangeCallback()
+		})()
+		</script>
 	</div>
 </body>
 </html>

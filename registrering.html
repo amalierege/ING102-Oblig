@@ -74,6 +74,23 @@
 			</div>
 			<button class="btn">Bli medlem</button>
 		</form>
+		<script>
+		(() => {
+			const select = document.forms[0][0]
+			const container = document.getElementById('registrer')
+			const updateSelect = () => {
+				// Setting the default value of the select-menu to the value passed in the url-hash
+				const hash = location.hash.slice(1)
+				if (!hash) return
+				if (select.children[hash]) select.value = hash
+				// Removing the hash from the url
+				history.replaceState({}, '', location.pathname)
+			}
+			// Custom event
+			addEventListener('navigationfinished', () => container.parentElement && updateSelect())
+			updateSelect()
+		})()
+		</script>
 	</div>
 </body>
 </html>

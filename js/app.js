@@ -62,16 +62,20 @@ const navbar = (() => {
 			// Replacing pagecontent and updating title
 			nav.nextElementSibling.replaceWith(data.content)
 			document.title = data.title
+			// Custom event that pages can listen to and run code after a navigation
+			dispatchEvent(new CustomEvent('navigationfinished'))
 		},
 		goTo = url => {
 			if (nav.matches('.open')) {
+				// Closing the navigation without animating it
 				nav.style.transitionDuration = '0s'
 				nav.classList.remove('open')
 				setTimeout(closeNav)
 			}
-			if (cache[url]) return updateContent(cache[url])
+			const path = new URL(url).pathname
+			if (cache[path]) return updateContent(cache[path])
 
-			const html = documents[url]
+			const html = documents[path]
 			// Retry again after 500ms if the page hasn't been fetched due to slow internet
 			if (!html) return setTimeout(() => goTo(url), 500)
 
@@ -82,17 +86,18 @@ const navbar = (() => {
 				).firstChild,
 			title = html.slice(html.indexOf('<title>') + 7, html.indexOf('</title>'))
 			
-			updateContent(cache[url] = { content, title })
+			updateContent(cache[path] = { content, title })
 		},
 		prefetchLink = async href => {
-			if (href == location.href || documents[href]) return
+			const path = new URL(href).pathname
+			if (path == location.pathname || documents[path]) return
 			const res = await fetch(href)
-			documents[href] = await res.text()
+			documents[path] = await res.text()
 		}
 
 		// Fetching and storing all documents after page load
 		onload = () => setTimeout(() => {
-			links.forEach(link => prefetchLink(link.href.split('?')[0]))
+			links.forEach(link => prefetchLink(link.href))
 			prefetchLink(location.origin + '/edel-team12/registrering.html')
 		})
 
@@ -114,7 +119,7 @@ const navbar = (() => {
 			router.goTo(link.href)
 		}
 
-		cache[location.href] = {
+		cache[location.pathname] = {
 			content: nav.nextElementSibling,
 			title: document.title
 		}
@@ -129,7 +134,7 @@ const navbar = (() => {
 
 	// Public methods and properties for the navbar
 	return {
-		router
+		router, nav
 	}
   
 })()
