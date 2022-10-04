@@ -115,6 +115,7 @@
 				return newText => {
 					textNodes[0].data = newText[0]
 					textNodes[1].data = newText[1]
+					// The hash allows the registration page to set the default membership option
 					link.href = `/edel-team12/registrering.html#${newText[2]}`
 				}
 			})()
