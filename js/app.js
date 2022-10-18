@@ -55,38 +55,42 @@ const navbar = (() => {
 	
 	// This router allows for fast navigation between pages without reloading
 	const router = (() => {
+		let currentPath = location.pathname
 		const cache = {}, // Stored page info
 		documents = {}, // Stored html documents
 		links = Array.from(nav.querySelectorAll('a')),
-		updateContent = data => {
+		updateContent = path => {
 			// Replacing pagecontent and updating title
-			nav.nextElementSibling.replaceWith(data.content)
-			document.title = data.title
+			nav.nextElementSibling.replaceWith(cache[path].content)
+			document.title = cache[currentPath = path].title
 			// Custom event that pages can listen to and run code after a navigation
 			dispatchEvent(new CustomEvent('navigationfinished'))
 		},
 		goTo = url => {
+			const path = new URL(url).pathname
+			if (path == currentPath) return
 			if (nav.matches('.open')) {
 				// Closing the navigation without animating it
 				nav.style.transitionDuration = '0s'
 				nav.classList.remove('open')
 				setTimeout(closeNav)
 			}
-			const path = new URL(url).pathname
-			if (cache[path]) return updateContent(cache[path])
-
+			if (cache[path]) return updateContent(path)
+			
 			const html = documents[path]
 			// Retry again after 500ms if the page hasn't been fetched due to slow internet
 			if (!html) return setTimeout(() => goTo(url), 500)
-
+			
 			// Parsing the html
+			
 			const content = document.createRange()
 				.createContextualFragment(
 					html.slice(html.indexOf('<div id='), html.lastIndexOf('</div>') + 6)
 				).firstChild,
 			title = html.slice(html.indexOf('<title>') + 7, html.indexOf('</title>'))
 			
-			updateContent(cache[path] = { content, title })
+			cache[path] = { content, title }
+			updateContent(path)
 		},
 		prefetchLink = async href => {
 			const path = new URL(href).pathname
@@ -98,7 +102,6 @@ const navbar = (() => {
 		// Fetching and storing all documents after page load
 		onload = () => setTimeout(() => {
 			links.forEach(link => prefetchLink(link.href))
-			prefetchLink(location.origin + '/edel-team12/registrering.html')
 		})
 
 		// Click handler that overrides the normal navigation for the links
