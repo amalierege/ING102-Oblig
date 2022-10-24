@@ -33,11 +33,14 @@ const navbar = (() => {
 	menuBtns.forEach(btn => {
 		const linkCount = btn.nextElementSibling.childElementCount
 		btn.onclick = () => {
+			// clicking these shouldn't do anything unless the navbar is in mobile mode
 			if (!media.matches) return
 			
 			if (btn.parentElement.classList.toggle('show')) {
+				// Increases the height of the navbar if the menu expands, else decreases it
 				nav.style.height = `${16.1 + 3 * linkCount}rem`
 				menuBtns.forEach(btn1 => {
+					// Closing the other menus
 					if (btn1 != btn) btn1.parentElement.className = 'menu-container'
 				})
 			}
@@ -46,7 +49,7 @@ const navbar = (() => {
 	})
 
 	themeToggle.checked = document.documentElement.className == 'light'
-	// Making sure the it doesn't animate on pageload
+	// Making sure the theme-toggle doesn't animate on pageload
 	setTimeout(() => themeToggle.nextElementSibling.firstElementChild.style.transition = 'transform 50ms ease-in-out 0s')
 	themeToggle.oninput = () => {
 		const newTheme = themeToggle.checked ? 'light' : 'dark'
