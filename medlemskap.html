@@ -120,7 +120,9 @@
 				}
 			})()
 			hashchangeCallback()
-			setTimeout(() => setTimeout(() => navbar.router.prefetchLink(location.origin + '/edel-team12/registrering.html')))
+			const prefetchRegistrering = () => setTimeout(navbar.router.prefetchLink(location.origin + '/edel-team12/registrering.html'))
+			if (document.readyState != 'loading') prefetchRegistrering()
+			else addEventListener('load', prefetchRegistrering)
 		})()
 		</script>
 	</div>
