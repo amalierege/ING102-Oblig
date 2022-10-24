@@ -68,7 +68,10 @@ const navbar = (() => {
 		},
 		goTo = url => {
 			const path = new URL(url).pathname
-			if (path == currentPath) return
+			if (path == currentPath) {
+				dispatchEvent(new CustomEvent('navigationfinished'))
+				return
+			}
 			if (nav.matches('.open')) {
 				// Closing the navigation without animating it
 				nav.style.transitionDuration = '0s'
